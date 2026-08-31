@@ -1,11 +1,11 @@
 ---
 name: analyze-qianchuan-videos
-description: 逐条拆解本地千川视频素材，识别钩子、说服链、成交模型、跑量机制、复刻方法和合规风险，并生成团队可执行的Excel报告；适用于品牌素材复盘、竞品跑量视频研究和编导培训。没有投放数据时只分析跑量条件，不宣称因果验证。
+description: 逐条拆解本地千川视频素材，识别钩子、说服链、成交模型、跑量机制、复刻方法和合规风险，并同步生成团队可执行的 Excel 与整合型单文件 HTML 报告；适用于品牌素材复盘、竞品跑量视频研究和编导培训。没有投放数据时只分析跑量条件，不宣称因果验证。
 ---
 
 # 千川视频成交模型拆解
 
-从完整视频证据出发，把“哪里好看”升级为“它靠什么让谁现在下单”，最终只交付一份 `.xlsx`。不写 Obsidian，不把中间帧、音频、JSON 或检查文件混入正式交付目录。
+从完整视频证据出发，把“哪里好看”升级为“它靠什么让谁现在下单”，最终同步交付同名 `.xlsx` 和 `.html`。HTML 是可断网打开的单文件分析报告，图片以 Data URL 内嵌；它按“核心结论→逐段时间轴→复刻策略→画面证据”整合内容，不做电子表格网页版。不写 Obsidian，不把中间帧、音频、JSON 或检查文件混入正式交付目录。
 
 ## 开始前
 
@@ -13,7 +13,7 @@ description: 逐条拆解本地千川视频素材，识别钩子、说服链、�
 2. 确认用户是要求先看一条，还是一次分析全部；用户要求先审一条时必须分阶段交付。
 3. 盘点可选资料：产品事实、真实活动/价格/库存、投放明细、目标人群和品牌限制。缺失资料只影响相关结论时明确标“未提供”，不要阻塞画面和脚本分析。
 4. 开始分析前阅读 [workflow.md](references/workflow.md)、[conversion-model-schema.md](references/conversion-model-schema.md) 和 [excel-output-contract.md](references/excel-output-contract.md)。在 WorkBuddy 中运行时另读 [workbuddy-usage.md](references/workbuddy-usage.md)。
-5. 需要生成或修改 Excel 时，使用当前环境可用的可靠电子表格能力。Codex 环境同时遵守 `spreadsheets` Skill；WorkBuddy 环境优先调用其原生 Excel/电子表格能力。若使用本 Skill 的构建器，先准备 `report-data.json`，再运行 `node scripts/build_report.mjs <report-data.json>`。
+5. 需要生成或修改 Excel 时，使用当前环境可用的可靠电子表格能力。Codex 环境同时遵守 `spreadsheets` Skill；WorkBuddy 环境优先调用其原生 Excel/电子表格能力。若使用本 Skill 的构建器，先准备 `report-data.json`，再运行 `node scripts/build_report.mjs <report-data.json>`；该命令同步生成 Excel 和整合型单文件 HTML。
 
 ## 工作流
 
@@ -24,8 +24,8 @@ description: 逐条拆解本地千川视频素材，识别钩子、说服链、�
 5. **选择画面证据**：每条通常选3–5帧，覆盖钩子、信任、商品/演示和交易加速；使用证据编号关联拆解结论。不要为装饰而截帧。
 6. **生成复刻方案**：明确必须保留的因果模块、可替换的表现元素、拍摄清单、脚本骨架和下一轮单变量测试。
 7. **横向比较**：分析全部素材后，归纳成交引擎、同质化、覆盖人群、素材池角色和优先测试矩阵。
-8. **生成 Excel**：正式文件只放 `deliverables/`，中间证据图放 `work/evidence_frames/`，检查结果放 `qa/`。
-9. **验证**：运行 `node scripts/validate_report.mjs <xlsx>`，并完成所有 Sheet 的视觉检查。
+8. **生成双格式报告**：正式 Excel 与单文件 HTML 只放 `deliverables/`，中间证据图放 `work/evidence_frames/`，检查结果放 `qa/`。先完成 Excel，再运行 `python scripts/xlsx_to_single_html.py <xlsx>`；若使用 `build_report.mjs`，转换会自动执行。
+9. **验证**：运行 `node scripts/validate_report.mjs <xlsx>` 并完成所有 Sheet 的视觉检查；再确认 HTML 不是表格照搬，而是连续阅读的分析报告，所有原字段仍可找到，证据图片数量与 Excel 一致且能放大，源码没有外部图片/CSS/JS 依赖。
 
 ## 强制规则
 
@@ -39,6 +39,9 @@ description: 逐条拆解本地千川视频素材，识别钩子、说服链、�
 - 图片只证明该时点“画面确实出现了什么”，不能单独证明口播事实、经营事实或投放效果。证据帧必须保留原始比例，不拉伸、不美化、不改字。
 - 每条通常嵌入3–5张关键证据帧；超过5张时必须说明新增图片解决了什么新的证据问题，避免Excel体积失控。
 - Excel 中任何数值投放指标必须保持数值类型；未知留空，不能填0伪装成无表现。
+- HTML 必须从最终 Excel 转换，不能另写一套可能与 Excel 漂移的数据；图片必须读取 Excel 媒体对象并内嵌，不能继续引用 `work/evidence_frames/`。
+- HTML 不做四张电子表格的网页复制。必须整合为报告结构：素材核心结论与成交链、逐段拆解时间轴、复刻策略与测试计划、关键证据图集。
+- 整合只改变阅读顺序和视觉层级，不删减、不改写 Excel 的分析细节；素材编号、证据编号、来源口径和风险边界必须一致。
 
 ## WorkBuddy 兼容约定
 
@@ -46,6 +49,7 @@ description: 逐条拆解本地千川视频素材，识别钩子、说服链、�
 - 使用 `python`、`node`、`ffmpeg`、`ffprobe` 前先执行 `python scripts/diagnose.py`；缺少能力时报告具体缺项，不自动联网安装。
 - WorkBuddy 若无法直接理解视频，应先运行 `prepare_video_review.py` 生成联系表和元数据，再用可用的图像/音频能力复核；不得仅根据文件名生成报告。
 - WorkBuddy 如果有原生 Excel 能力，可依据 `excel-output-contract.md` 直接创建工作簿，不强制使用 `build_report.mjs`。
+- WorkBuddy 生成 Excel 后必须运行 `python scripts/xlsx_to_single_html.py <xlsx>`；若目标环境无法运行该脚本，明确报告 HTML 能力缺口，不用多文件网页或表格网页替代。
 - 不发送消息、不上传视频、不修改源文件。所有分析均在用户指定的本地目录内完成。
 
 ## 完成标准
@@ -55,4 +59,5 @@ description: 逐条拆解本地千川视频素材，识别钩子、说服链、�
 - 全量任务包含横向总结与测试矩阵。
 - Excel Sheet、必填列和素材ID/文件名可追溯；公式错误扫描为0。
 - 所有 Sheet 完成视觉检查，长文本可读、关键字段不截断。
-- 最终只交付一份正式 `.xlsx`；除非用户明确要求，不交付 Markdown、HTML 或 Obsidian 笔记。
+- HTML 中的素材数和证据图片数与 Excel 一致；删除或移动中间图片目录后，HTML 仍能断网打开并显示图片。
+- 最终只交付同名 `.xlsx` 与 `.html`；除非用户明确要求，不交付 Markdown、Obsidian 笔记或外部图片目录。

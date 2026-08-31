@@ -7,7 +7,7 @@ project/
 ├── inputs/        可选复制的产品资料和投放数据
 ├── work/          inventory.json、联系表、音频和分析JSON
 ├── qa/            验证JSON与Excel预览
-└── deliverables/  唯一正式xlsx
+└── deliverables/  同名正式xlsx与整合型单文件html
 ```
 
 源视频默认保持原位置，只读处理；不要为了整理目录而移动或重命名用户文件。
@@ -56,3 +56,13 @@ project/
 ## 8. 横向复盘
 
 回答素材覆盖哪些成交引擎、哪些只是换皮、哪些模型由单条素材驱动、哪些人群/场景/异议没有覆盖、素材池中拉新/说服/收割/补量如何分配，以及优先测试的3–5个单变量。
+
+## 9. 双格式交付
+
+先完成并验证 Excel，再从最终 Excel 转换整合型单文件 HTML：
+
+```text
+python scripts/xlsx_to_single_html.py deliverables/报告.xlsx
+```
+
+默认生成 `deliverables/报告.html`。页面不能是电子表格网页版；必须把相同内容重组为结论、时间轴、复刻方案和证据图集。暂时移动或忽略中间图片目录后再次打开 HTML，确认文字、内嵌图片和大图查看仍然可用。

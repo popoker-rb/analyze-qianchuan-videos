@@ -1,6 +1,6 @@
 # analyze-qianchuan-videos
 
-面向抖音千川视频素材的成交模型拆解 Skill。它从完整视频证据出发，识别钩子、说服链、成交模型、跑量条件、复刻方法和合规风险，并生成团队可执行、素材级可追溯的 Excel 报告。
+面向抖音千川视频素材的成交模型拆解 Skill。它从完整视频证据出发，识别钩子、说服链、成交模型、跑量条件、复刻方法和合规风险，并同步生成团队可执行的 Excel 与整合型单文件离线 HTML 报告。
 
 > “跑量素材”只是输入背景，不代表已经知道跑量原因。未提供消耗、订单、成交成本和 ROI 时，本 Skill 只分析素材具备的跑量条件，不宣称因果已经得到投放验证。
 
@@ -16,12 +16,14 @@
 
 ## 主要输出
 
-正式交付是一份 `.xlsx`，固定包含四个工作表：
+正式交付包含同名 `.xlsx` 与 `.html`。Excel 固定包含四个工作表：
 
 1. `素材总览`：每条视频的核心钩子、成交模型、跑量逻辑、优缺点和风险。
 2. `逐段拆解`：按语义和画面任务切段，解释每段对停留、信任和成交的作用。
 3. `复刻策略`：必须保留的因果模块、可替换元素、拍摄清单、脚本骨架和单变量测试。
 4. `画面证据`：嵌入关键帧，并用证据编号关联分析结论。
+
+HTML 不复制四张表，而是把相同内容重组为核心结论、成交因果链、逐段时间轴、复刻策略和证据图集。所有图片以 Base64 内嵌，可以断网打开，不需要额外图片文件夹。
 
 ## 安装
 
@@ -93,6 +95,9 @@ node scripts/build_report.mjs references/report-data-example.json
 
 # 4. 验证工作簿结构和公式错误
 node scripts/validate_report.mjs /path/to/report.xlsx
+
+# 5. 如果 Excel 不是由 build_report.mjs 生成，单独转换单文件 HTML
+python scripts/xlsx_to_single_html.py /path/to/report.xlsx
 ```
 
 联系表只用于定位，不能代替完整观看视频。具体工作流、成交模型定义和 Excel 字段契约见 [`references/`](references/)。
@@ -103,11 +108,11 @@ node scripts/validate_report.mjs /path/to/report.xlsx
 - 关键帧只能证明对应时点出现的可见画面，不能单独证明口播事实、经营事实或投放效果。
 - 价格、库存、销量、检测、专家背书、功效等信息没有资料支持时，必须标记为“待核实”或“风险”。
 - 本 Skill 不上传视频、不移动或重命名源文件，也不自动发送报告。
+- HTML 不引用外部图片、CSS 或 JavaScript，移动中间图片目录后仍可离线查看。
 
 ## 仓库内容
 
 - [`SKILL.md`](SKILL.md)：Skill 入口和核心约束
 - [`agents/openai.yaml`](agents/openai.yaml)：Codex 界面信息与调用策略
 - [`references/`](references/)：工作流、成交模型和 Excel 输出契约
-- [`scripts/`](scripts/)：视频盘点、证据帧提取、Excel 构建、验证与预览工具
-
+- [`scripts/`](scripts/)：视频盘点、证据帧提取、Excel 构建、整合型单文件 HTML 转换、验证与预览工具

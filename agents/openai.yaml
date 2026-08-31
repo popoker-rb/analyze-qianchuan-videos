@@ -1,6 +1,6 @@
 interface:
   display_name: "千川视频成交模型拆解"
-  short_description: "逐条拆解千川视频成交模型并生成团队复刻型Excel报告"
-  default_prompt: "使用 $analyze-qianchuan-videos 拆解我提供的视频素材，识别成交模型与跑量逻辑，并输出Excel报告。"
+  short_description: "拆解千川视频并同步生成Excel与整合型单文件HTML"
+  default_prompt: "使用 $analyze-qianchuan-videos 拆解我提供的视频素材，识别成交模型与跑量逻辑，并同步输出Excel和内嵌图片的整合型单文件HTML报告。"
 policy:
   allow_implicit_invocation: true

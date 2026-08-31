@@ -23,13 +23,13 @@ python scripts/diagnose.py
 ## 推荐调用话术
 
 ```text
-请使用 analyze-qianchuan-videos Skill，逐条分析这个文件夹里的视频素材。识别每条的成交模型、跑量条件、优点、不足、合规风险和团队复刻方法，完成后做横向总结，只输出一份Excel。
+请使用 analyze-qianchuan-videos Skill，逐条分析这个文件夹里的视频素材。识别每条的成交模型、跑量条件、优点、不足、合规风险和团队复刻方法，完成后做横向总结，同步输出Excel和一个内嵌图片的整合型单文件HTML。
 ```
 
 如果用户要求先看一条：
 
 ```text
-先只分析自然排序第1条，输出Excel让我确认；确认后再继续剩余视频，不要提前批量分析。
+先只分析自然排序第1条，同步输出Excel和整合型单文件HTML让我确认；确认后再继续剩余视频，不要提前批量分析。
 ```
 
 ## Excel 路由
@@ -39,6 +39,8 @@ python scripts/diagnose.py
 1. WorkBuddy 原生 Excel/电子表格能力；
 2. 环境已经能解析 `@oai/artifact-tool` 时使用 `scripts/build_report.mjs`；
 3. 两者都不可用时停止并报告，不能用 CSV、Markdown 或 HTML 冒充用户要求的 Excel。
+
+Excel 生成后运行 `python scripts/xlsx_to_single_html.py <xlsx>`。HTML 必须整合为分析报告，不照搬 Sheet 表格；转换器直接读取 Excel 内嵌图片，不依赖外部图片目录。
 
 ## 安全边界
 

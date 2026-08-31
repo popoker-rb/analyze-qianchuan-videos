@@ -1,5 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import { Workbook, SpreadsheetFile } from "@oai/artifact-tool";
 
 const input = process.argv[2];
@@ -35,7 +37,18 @@ await addEvidenceSheet(cfg.evidence || []);
 await fs.mkdir(path.dirname(output), { recursive: true });
 const blob = await SpreadsheetFile.exportXlsx(wb);
 await blob.save(output);
-console.log(output);
+const htmlOutput = output.replace(/\.xlsx$/i, ".html");
+const converter = path.join(path.dirname(fileURLToPath(import.meta.url)), "xlsx_to_single_html.py");
+const pythonCandidates = [process.env.PYTHON, "python", "python3"].filter(Boolean);
+let converted = false;
+let lastError = "";
+for (const python of pythonCandidates) {
+  const result = spawnSync(python, [converter, output, htmlOutput], { encoding: "utf8" });
+  if (!result.error && result.status === 0) { converted = true; break; }
+  lastError = result.error?.message || result.stderr || `exit ${result.status}`;
+}
+if (!converted) throw new Error(`Excel 已生成，但单文件 HTML 生成失败：${lastError}`);
+console.log(JSON.stringify({ xlsx: output, html: htmlOutput }, null, 2));
 
 function addSheet(spec) {
   const s = wb.worksheets.add(spec.name);
