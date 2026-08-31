@@ -60,3 +60,5 @@
 - 从 Excel 媒体对象读取关键帧并转换为 `data:image/...;base64,...`，不引用本地图片路径、CDN、外部 CSS 或外部 JavaScript。
 - 证据图片支持原比例展示和点击放大；页面继续明确图片不能证明口播、经营事实或投放效果。
 - 验收时核对素材数、证据图片数、编号和来源口径与 Excel 一致，并扫描 HTML 源码确保没有外部资源依赖。
+- 页面固定标记 `HTML Template v1.0.0`。模板升级必须修改版本号并同步更新 `qa/html-template-v1.png`；单次报告不得自行改版。
+- 必须运行 `python scripts/validate_single_html.py <xlsx> <html>`，结果为 `passed: true` 后才可交付。

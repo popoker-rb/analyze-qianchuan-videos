@@ -25,7 +25,7 @@ description: 逐条拆解本地千川视频素材，识别钩子、说服链、�
 6. **生成复刻方案**：明确必须保留的因果模块、可替换的表现元素、拍摄清单、脚本骨架和下一轮单变量测试。
 7. **横向比较**：分析全部素材后，归纳成交引擎、同质化、覆盖人群、素材池角色和优先测试矩阵。
 8. **生成双格式报告**：正式 Excel 与单文件 HTML 只放 `deliverables/`，中间证据图放 `work/evidence_frames/`，检查结果放 `qa/`。先完成 Excel，再运行 `python scripts/xlsx_to_single_html.py <xlsx>`；若使用 `build_report.mjs`，转换会自动执行。
-9. **验证**：运行 `node scripts/validate_report.mjs <xlsx>` 并完成所有 Sheet 的视觉检查；再确认 HTML 不是表格照搬，而是连续阅读的分析报告，所有原字段仍可找到，证据图片数量与 Excel 一致且能放大，源码没有外部图片/CSS/JS 依赖。
+9. **验证**：运行 `node scripts/validate_report.mjs <xlsx>` 并完成所有 Sheet 的视觉检查；再运行 `python scripts/validate_single_html.py <xlsx> <html>`。只有模板版本、四段结构、全字段保留、零表格、图片数量一致和零外部资源全部通过，才能交付。
 
 ## 强制规则
 
@@ -42,6 +42,7 @@ description: 逐条拆解本地千川视频素材，识别钩子、说服链、�
 - HTML 必须从最终 Excel 转换，不能另写一套可能与 Excel 漂移的数据；图片必须读取 Excel 媒体对象并内嵌，不能继续引用 `work/evidence_frames/`。
 - HTML 不做四张电子表格的网页复制。必须整合为报告结构：素材核心结论与成交链、逐段拆解时间轴、复刻策略与测试计划、关键证据图集。
 - 整合只改变阅读顺序和视觉层级，不删减、不改写 Excel 的分析细节；素材编号、证据编号、来源口径和风险边界必须一致。
+- 正式 HTML 固定使用 `HTML Template v1.0.0`；不得在单次项目中临时改颜色、结构、字体、卡片或证据图样式。需要改版时统一升级模板版本并更新视觉基准图。
 
 ## WorkBuddy 兼容约定
 
@@ -60,4 +61,5 @@ description: 逐条拆解本地千川视频素材，识别钩子、说服链、�
 - Excel Sheet、必填列和素材ID/文件名可追溯；公式错误扫描为0。
 - 所有 Sheet 完成视觉检查，长文本可读、关键字段不截断。
 - HTML 中的素材数和证据图片数与 Excel 一致；删除或移动中间图片目录后，HTML 仍能断网打开并显示图片。
+- `validate_single_html.py` 返回 `passed: true`；HTML 首屏与 `qa/html-template-v1.png` 保持同一视觉体系。内容长度和浏览器宽度允许引起换行或卡片高度变化，不允许变成另一套布局。
 - 最终只交付同名 `.xlsx` 与 `.html`；除非用户明确要求，不交付 Markdown、Obsidian 笔记或外部图片目录。

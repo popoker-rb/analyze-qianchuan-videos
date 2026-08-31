@@ -25,6 +25,8 @@
 
 HTML 不复制四张表，而是把相同内容重组为核心结论、成交因果链、逐段时间轴、复刻策略和证据图集。所有图片以 Base64 内嵌，可以断网打开，不需要额外图片文件夹。
 
+页面固定使用 `HTML Template v1.0.0`。同一版本的 Skill 会生成同一套结构、颜色、间距和组件；内容长度和浏览器宽度只会影响换行与卡片高度。
+
 ## 安装
 
 将整个仓库复制到 Codex 或兼容 Agent 的 Skills 目录，保持以下结构不变：
@@ -98,6 +100,9 @@ node scripts/validate_report.mjs /path/to/report.xlsx
 
 # 5. 如果 Excel 不是由 build_report.mjs 生成，单独转换单文件 HTML
 python scripts/xlsx_to_single_html.py /path/to/report.xlsx
+
+# 6. 自动检查模板、全字段、图片数量和外部依赖
+python scripts/validate_single_html.py /path/to/report.xlsx /path/to/report.html
 ```
 
 联系表只用于定位，不能代替完整观看视频。具体工作流、成交模型定义和 Excel 字段契约见 [`references/`](references/)。
@@ -115,4 +120,5 @@ python scripts/xlsx_to_single_html.py /path/to/report.xlsx
 - [`SKILL.md`](SKILL.md)：Skill 入口和核心约束
 - [`agents/openai.yaml`](agents/openai.yaml)：Codex 界面信息与调用策略
 - [`references/`](references/)：工作流、成交模型和 Excel 输出契约
-- [`scripts/`](scripts/)：视频盘点、证据帧提取、Excel 构建、整合型单文件 HTML 转换、验证与预览工具
+- [`scripts/`](scripts/)：视频盘点、证据帧提取、Excel 构建、整合型单文件 HTML 转换、自动验收与预览工具
+- [`qa/html-template-v1.png`](qa/html-template-v1.png)：HTML Template v1 标准视觉基准图

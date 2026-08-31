@@ -66,3 +66,11 @@ python scripts/xlsx_to_single_html.py deliverables/报告.xlsx
 ```
 
 默认生成 `deliverables/报告.html`。页面不能是电子表格网页版；必须把相同内容重组为结论、时间轴、复刻方案和证据图集。暂时移动或忽略中间图片目录后再次打开 HTML，确认文字、内嵌图片和大图查看仍然可用。
+
+随后执行：
+
+```text
+python scripts/validate_single_html.py deliverables/报告.xlsx deliverables/报告.html
+```
+
+自动检查通过后，再将首屏与 `qa/html-template-v1.png` 对照做视觉检查。模板版本不同或整体视觉结构不一致时停止交付。

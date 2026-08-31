@@ -42,6 +42,8 @@ python scripts/diagnose.py
 
 Excel 生成后运行 `python scripts/xlsx_to_single_html.py <xlsx>`。HTML 必须整合为分析报告，不照搬 Sheet 表格；转换器直接读取 Excel 内嵌图片，不依赖外部图片目录。
 
+转换后运行 `python scripts/validate_single_html.py <xlsx> <html>`。输出不是 `passed: true` 时停止交付，不手工绕过模板、字段、图片或外部资源检查。
+
 ## 安全边界
 
 - 视频只读，不移动、不重命名、不上传。

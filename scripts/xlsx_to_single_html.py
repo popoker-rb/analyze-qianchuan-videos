@@ -19,6 +19,8 @@ NS = {
     "a": "http://schemas.openxmlformats.org/drawingml/2006/main",
 }
 
+HTML_TEMPLATE_VERSION = "1.0.0"
+
 
 def rel_path(source, target):
     source_dir = PurePosixPath(source).parent
@@ -227,7 +229,7 @@ def build_html(sheets, source_name):
     sections = "".join(filter(None, [overview_section(by_name["素材总览"]) if "素材总览" in by_name else "", segments_section(by_name["逐段拆解"]) if "逐段拆解" in by_name else "", replication_section(by_name["复刻策略"]) if "复刻策略" in by_name else "", evidence_section(by_name["画面证据"]) if "画面证据" in by_name else ""]))
     data = json.dumps({"source": source_name, "sheets": len(sheets), "materials": materials, "images": images}, ensure_ascii=False).replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026")
     return f'''<!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="qianchuan-report-template" content="{HTML_TEMPLATE_VERSION}">
 <title>千川视频成交模型拆解</title>
 <style>
 :root{{--navy:#17324d;--blue:#2f75b5;--ink:#1f2937;--muted:#64748b;--line:#dbe4ee;--paper:#f4f7fa;--risk:#fff1f2;--good:#effaf4;--warn:#fff8e7;--card:#fff}}
@@ -250,7 +252,7 @@ footer{{max-width:1500px;margin:0 auto 32px;padding:0 42px;color:var(--muted);fo
 </style></head>
 <body><header class="hero"><div class="hero-inner"><p class="kicker">QIANCHUAN VIDEO REVIEW</p><h1>千川视频成交模型拆解</h1><p class="subtitle">把素材结论、成交链、时间轴、复刻策略和画面证据整合成一份可连续阅读的分析报告。图片已嵌入本文件，断网也可打开。</p><div class="stats"><div class="stat"><b>{materials}</b><span>素材数量</span></div><div class="stat"><b>{len(sheets)}</b><span>分析模块</span></div><div class="stat"><b>{images}</b><span>证据图片</span></div></div></div></header>
 <div class="nav-wrap"><nav><a href="#overview">核心结论</a><a href="#segments">逐段拆解</a><a href="#replication">复刻策略</a><a href="#evidence">画面证据</a></nav></div><main>{sections}</main>
-<footer>来源文件：<code>{html.escape(source_name)}</code> · 单文件离线报告 · 画面证据不能单独证明口播、经营事实或投放效果</footer>
+<footer>来源文件：<code>{html.escape(source_name)}</code> · HTML Template v{HTML_TEMPLATE_VERSION} · 单文件离线报告 · 画面证据不能单独证明口播、经营事实或投放效果</footer>
 <div class="modal" role="dialog" aria-modal="true"><button aria-label="关闭">×</button><img alt="证据图片大图"></div>
 <script>const reportMeta={data};const m=document.querySelector('.modal'),mi=m.querySelector('img');document.querySelectorAll('.image-button').forEach(b=>b.onclick=()=>{{mi.src=b.dataset.image;m.classList.add('open')}});m.onclick=e=>{{if(e.target===m||e.target.tagName==='BUTTON')m.classList.remove('open')}};addEventListener('keydown',e=>{{if(e.key==='Escape')m.classList.remove('open')}});</script></body></html>'''
 
