@@ -1,0 +1,27 @@
+{
+  "reportTitle": "示例品牌视频素材成交模型拆解",
+  "sourcePath": "/example/videos",
+  "scopeNote": "示例数据；未提供投放后台数据，跑量逻辑为结构判断。",
+  "outputPath": "deliverables/示例_视频素材成交模型拆解.xlsx",
+  "overview": [{
+    "materialNo": "01", "fileName": "示例素材.mp4", "duration": 31.1, "format": "720×1280 竖版", "product": "番茄汁",
+    "hook": "产品即将下架", "conversionModel": "下架稀缺成交模型", "modelStatus": "推定",
+    "conversionChain": "下架事件→经营证据→最后库存→低门槛试喝→错过损失", "evidenceRefs": "01-E01, 01-E02",
+    "scalingLogic": "事件钩子拉停留，证据链承接信任，真实稀缺推动即时下单。", "strength": "促销理由完整",
+    "weakness": "产品口味解释不足", "complianceRisk": "下架和最后库存必须真实", "confidence": "中", "poolRole": "节点收割", "priority": "高"
+  }],
+  "segments": [{
+    "materialNo": "01", "fileName": "示例素材.mp4", "start": 0, "end": 3, "content": "宣布产品即将下架",
+    "evidenceRefs": "01-E01", "function": "事件钩子", "retentionRole": "制造信息缺口", "trustRole": "暂未建立", "conversionRole": "触发损失厌恶",
+    "replicable": "用真实经营事件作为开头", "risk": "事件真实性待核验"
+  }],
+  "replication": [{
+    "materialNo": "01", "conversionModel": "下架稀缺成交模型", "prePurchaseState": "对产品有印象但没有立即购买计划",
+    "purchaseTrigger": "产品即将下架", "trustValue": "原料、工厂和库存证据", "objectionHandling": "老客背书并解释当前低价",
+    "accelerator": "真实最后库存和试喝优惠", "buyNowReason": "以后可能无法再买", "mustKeep": "事件→证据→低门槛试用→即时损失",
+    "replaceable": "人物、场景、镜头、开头措辞", "failureConditions": "下架不真实或价格无优势",
+    "shotList": "产品阵列；原料；生产；库存；倒汁；开箱", "scriptSkeleton": "重大消息→真实原因→证据→回馈方案→催单",
+    "nextTest": "只测试三个不同前3秒开头", "successMetrics": "3秒率、点击后转化率、成交成本、净ROI", "factChecks": "下架决定、库存数量、活动价格"
+  }],
+  "evidence": []
+}

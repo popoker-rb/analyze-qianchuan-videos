@@ -1,0 +1,38 @@
+# macOS
+.DS_Store
+
+# Local inputs and generated artifacts
+work/
+inputs/
+deliverables/
+previews/
+*.xlsx
+*.xls
+*.csv
+
+# Video and audio source files
+*.mp4
+*.mov
+*.m4v
+*.avi
+*.mkv
+*.webm
+*.mp3
+*.wav
+*.m4a
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+credentials.json
+secrets.json
+
+# Runtime caches
+__pycache__/
+*.py[cod]
+node_modules/
+npm-debug.log*
+
